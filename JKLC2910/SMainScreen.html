@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <title>OTMS</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    
+        <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.js"></script>
+
+    </head>
+    <style>
+         body{
+                background-color: #bccee8;
+                font-weight: bold;
+                margin: 10px;
+            }
+            div{
+            width: 40%;
+           /* border: 1px solid black;
+            background-color: white; */
+            margin: 20px;
+            padding: 20px;
+        }
+        button{
+            padding: 10px;
+            margin: 10px;
+            width: 60%;
+            border-radius: 10px;
+            background-color: #b2b4c2;
+            color: black;
+            font-size: 20px;
+        }
+        a{
+            text-decoration: none !important; 
+            color: black;
+        }
+        a:hover{
+            color: white;
+        }
+
+    </style>
+    <body>
+    <center>
+        <h2 style="font-weight: bold;">Welcome Student !</h2>
+        <p style="color: red; font-size: 20px;">Kindly select from the below options</p>
+        <div style="border: 1px solid black; background-color: #fff;">
+            <button><a href="student_detailsbak.php" id="viewProfileButton"> View Profile</a></button><br>
+         <!--   
+            <button>View Attendance</button><br>
+            <button>View Marks</button><br>
+            <button>View Fees</button><br>
+         -->
+            <button> <a target="_blank" href="https://console.dialogflow.com/api-client/demo/embedded/2b816abe-9504-4bfa-8ac7-8b9ce45f0d3c">Help</a> </button>
+            <button><a href="SLogin.html">Back</a></button><br>
+            
+
+        </div>
+
+        
+    </center>
+    </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get student ID from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const studentID = urlParams.get('id');
+    
+        // Update the "View Profile" link with the student ID
+        const viewProfileLink = document.getElementById('viewProfileButton');
+        viewProfileLink.href = `student_detailsbak.php?id=${studentID}`;
+    
+        // Rest of your code...
+    });
+</script>
+<!--
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get student ID from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const studentID = urlParams.get('id');
+    
+            // Fetch student details based on student ID
+            fetch(`student_detailsbak.php?id=${studentID}`)
+                .then(response => response.json())
+                .then(studentDetails => {
+                    // Display student details on the page
+                    // Modify the following lines based on your HTML structure
+                    // For example, if you have a div with id "studentDetailsContainer", you can append data to it
+                    document.getElementById('studentName').textContent = studentDetails.student_name;
+                    document.getElementById('contact').textContent = studentDetails.pcontact;
+                    // Add similar lines for other details
+                })
+                .catch(error => console.error('Error fetching student details:', error));
+        });
+    </script>
+-->
+</html>

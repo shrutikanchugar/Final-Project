@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTMS</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.js"></script>
+</head>
+<style>
+    body {
+        background-color: #bccee8;
+        font-weight: bold;
+        margin: 10px;
+    }
+
+    div {
+        width: 40%;
+        margin: 20px;
+        padding: 20px;
+    }
+
+    button {
+        padding: 10px;
+        margin: 10px;
+        width: 60%;
+        border-radius: 10px;
+        background-color: #b2b4c2;
+        color: black;
+        font-size: 20px;
+    }
+
+    a {
+        text-decoration: none !important;
+        color: black;
+    }
+
+    a:hover {
+        color: white;
+    }
+
+    /* Chatbox styles */
+    #chatboxContainer {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 300px;
+        background-color: #fff;
+        border: 1px solid black;
+        overflow: hidden;
+        transition: height 0.3s;
+        border-radius: 10px;
+    }
+
+    #chatboxIframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .chatboxControls {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        display: flex;
+        flex-direction: row;
+        opacity: 1;
+        transition: opacity 0.3s;
+    }
+
+    .chatboxButtons {
+        display: flex;
+        gap: 5px;
+    }
+
+    .chatboxControls button {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .minimizeIcon:before {
+        content: '-';
+    }
+
+    .maximizeIcon:before {
+        content: '+';
+    }
+
+    .closeIcon:before {
+        content: 'X';
+    }
+
+    .chatboxControls button:hover {
+        background-color: #ddd;
+    }
+
+    .minimized .chatboxControls {
+        opacity: 0;
+    }
+</style>
+<body>
+    <center>
+        <h2 style="font-weight: bold;">Welcome Student !</h2>
+        <p style="color: red; font-size: 20px;">Kindly select from the below options</p>
+        <div style="border: 1px solid black; background-color: #fff;">
+            <button id="helpButton">Help</button>
+            <button><a href="student_detailsbak.php" id="viewProfileButton">View Profile</a></button>
+            <button><a href="SLogin.html">Back</a></button>
+        </div>
+    </center>
+
+    <!-- Chatbox Container -->
+    <div id="chatboxContainer">
+        <div class="chatboxControls">
+            <div class="chatboxButtons">
+                <button id="minimizeButton" class="minimizeIcon"></button>
+                <button id="maximizeButton" class="maximizeIcon"></button>
+                <button id="closeButton" class="closeIcon"></button>
+            </div>
+        </div>
+        <iframe id="chatboxIframe" src="https://console.dialogflow.com/api-client/demo/embedded/2586465f-854c-4e2d-84d6-b4bcfd62457c"></iframe>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const chatboxContainer = document.getElementById('chatboxContainer');
+            const helpButton = document.getElementById('helpButton');
+            const minimizeButton = document.getElementById('minimizeButton');
+            const maximizeButton = document.getElementById('maximizeButton');
+            const closeButton = document.getElementById('closeButton');
+
+            helpButton.addEventListener('click', function () {
+                chatboxContainer.style.display = 'block';
+            });
+
+            minimizeButton.addEventListener('click', function () {
+                chatboxContainer.classList.add('minimized');
+            });
+
+            maximizeButton.addEventListener('click', function () {
+                chatboxContainer.classList.remove('minimized');
+            });
+
+            closeButton.addEventListener('click', function () {
+                chatboxContainer.style.display = 'none';
+            });
+        });
+    </script>
+
+    <!-- Additional script for student details -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get student ID from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const studentID = urlParams.get('id');
+
+            // Update the "View Profile" link with the student ID
+            const viewProfileLink = document.getElementById('viewProfileButton');
+            viewProfileLink.href = `student_detailsbak.php?id=${studentID}`;
+
+            // Rest of your code for fetching and displaying student details...
+        });
+    </script>
+</body>
+</html>

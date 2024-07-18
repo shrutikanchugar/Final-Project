@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PTM Request</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <style>
+        .heading {
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Send PTM Request</h3>
+        <h6>Add number without space like 918095680947 not <strike>+91 8095680947</strike></h6>
+        <div class="form-group">
+            <label for="classDropdown">Select Class:</label>
+            <select id="classDropdown" class="form-control">
+                <option value="">Select Class</option>
+                <!-- Populate classes dynamically from the database -->
+                
+                <?php
+                // Database connection settings
+                $host = "localhost";
+                $user = "root";
+                $password = "";
+                $database = "jklc";
+
+                // Create a connection to the database
+                $conn = new mysqli($host, $user, $password, $database);
+
+                // Check the connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                // Query to fetch unique class names from the database
+                $query = "SELECT DISTINCT class FROM sregister";
+                $result = $conn->query($query);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<option value='" . $row["class"] . "'>" . $row["class"] . "</option>";
+                    }
+                }
+                ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="studentName">Select Student Name:</label>
+            <select id="studentName" class="form-control"></select>
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Phone Number:</label>
+            <input id="phoneNumber" type="number" class="form-control" placeholder="Phone Number" readonly>
+        </div>
+        <div class="form-group">
+            <label for="message">Type Message:</label>
+            <input id="message" type="text" class="form-control" placeholder="Type message">
+        </div>
+        <button onclick="sendPTMRequest()" class="btn btn-primary">Send</button>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            // Function to fetch student names based on selected class
+            $('#classDropdown').change(function(){
+                var classSelected = $(this).val();
+                $.ajax({
+                    url: 'get_students.php', // Change this to your PHP file that fetches student names
+                    type: 'POST',
+                    data: {class: classSelected},
+                    success: function(response){
+                        $('#studentName').html(response);
+                    }
+                });
+            });
+
+            // Function to fetch phone number based on selected student name
+            $('#studentName').change(function(){
+                var studentName = $(this).val();
+                $.ajax({
+                    url: 'get_phone.php', // Change this to your PHP file that fetches phone number
+                    type: 'POST',
+                    data: {studentName: studentName},
+                    success: function(response){
+                        $('#phoneNumber').val(response);
+                    }
+                });
+            });
+        });
+
+        // Function to send PTM request
+        function sendPTMRequest(){
+            var phoneNumber = $('#phoneNumber').val();
+            var message = $('#message').val();
+            var studentName = $('#studentName').val();
+            var url = 'https://wa.me/' + phoneNumber + '?text=Hello ' + studentName + '%20This is a reminder for PTM session on ' + message;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
